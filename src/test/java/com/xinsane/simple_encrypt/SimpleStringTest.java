@@ -2,6 +2,7 @@ package com.xinsane.simple_encrypt;
 
 import com.xinsane.simple_encrypt.rsa.RsaKey;
 import com.xinsane.simple_encrypt.rsa.RsaKeyGenerator;
+import com.xinsane.simple_encrypt.s_des.SDesKey;
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
@@ -62,6 +63,26 @@ public class SimpleStringTest {
                 System.out.println();
         }
         System.out.println("----  END  RSA MANY TEST ----\n");
+    }
+
+    @Test
+    public void s_des() {
+        System.out.println("---- BEGIN S-DES TEST ----");
+        long start_time = System.currentTimeMillis();
+        SDesKey key = new SDesKey(0b1101111101);
+        long start_encrypt_time = System.currentTimeMillis();
+        byte[] cipher = key.encrypt(text.getBytes());
+        long start_decrypt_time = System.currentTimeMillis();
+        String decrypted_text = new String(key.decrypt(cipher));
+        long final_time = System.currentTimeMillis();
+        if (text.equals(decrypted_text))
+            System.out.println("decrypted data passed.");
+        else
+            System.err.println("decrypted data rejected: " + decrypted_text);
+        System.out.print("generate: "); System.out.print(start_encrypt_time - start_time); System.out.println("ms. ");
+        System.out.print("encrypt : "); System.out.print(start_decrypt_time - start_encrypt_time); System.out.println("ms. ");
+        System.out.print("decrypt : "); System.out.print(final_time - start_decrypt_time); System.out.println("ms. ");
+        System.out.println("----  END  S-DES TEST ----");
     }
 
     public static void main(String[] ars) {
