@@ -26,8 +26,8 @@ public class PublicKey {
                 byte[] fragment = new byte[fragment_len-1];
                 int len = i == fragment_num - 1 ? bytes.length % max_len : max_len;
                 System.arraycopy(bytes, i * max_len, fragment, 0, len);
-                fragment[fragment.length-2] = (byte) (len % 0x100); // 高字节填充
-                fragment[fragment.length-1] = (byte) (len / 0x100); // 低字节填充
+                fragment[fragment.length-2] = (byte) (len % 0x100); // 低字节填充
+                fragment[fragment.length-1] = (byte) (len / 0x100); // 高字节填充
 //                list_src.add(fragment);
                 fragment = encrypt(new BigInteger(1, fragment)).toByteArray();
 //                list_dest.add(fragment);

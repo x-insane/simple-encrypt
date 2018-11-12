@@ -7,13 +7,13 @@ public class RsaKeyGenerator {
     private RsaKey key;
 
     public static RsaKey generate(int length) {
-        return new RsaKeyGenerator(length / 2).key;
+        return new RsaKeyGenerator(length).key;
     }
 
     private RsaKeyGenerator(int length) {
         Random random = new Random(System.currentTimeMillis());
-        BigInteger p = BigInteger.probablePrime(length, random);
-        BigInteger q = BigInteger.probablePrime(length, random);
+        BigInteger p = BigInteger.probablePrime(length / 2, random);
+        BigInteger q = BigInteger.probablePrime(length / 2, random);
         init(p, q, length);
     }
 
@@ -27,11 +27,11 @@ public class RsaKeyGenerator {
 
         // 选择公钥参数e
         BigInteger e = chooseE(euler);
-        PublicKey publicKey = new PublicKey(n, e, length*2);
+        PublicKey publicKey = new PublicKey(n, e, length);
 
         // 生成私钥参数d
         BigInteger d = ged(euler, e).t;
-        PrivateKey privateKey = new PrivateKey(n, d.mod(euler), length*2);
+        PrivateKey privateKey = new PrivateKey(n, d.mod(euler), length);
 
         key = new RsaKey(publicKey, privateKey);
     }

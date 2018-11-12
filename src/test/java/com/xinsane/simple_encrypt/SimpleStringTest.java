@@ -3,8 +3,20 @@ package com.xinsane.simple_encrypt;
 import com.xinsane.simple_encrypt.rsa.RsaKey;
 import com.xinsane.simple_encrypt.rsa.RsaKeyGenerator;
 import org.junit.Test;
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Result;
+import org.junit.runner.notification.Failure;
 
 public class SimpleStringTest {
+    /**
+     * RSA生成密钥参数n的位长度
+     */
+    private static final int rsa_length = 1024;
+
+    /**
+     * RSA MANY 测试次数
+     */
+    private static final int rsa_many_times = 500;
 
     /**
      * 用于测试RSA加解密的正确性和效率
@@ -13,7 +25,7 @@ public class SimpleStringTest {
     public void rsa() {
         System.out.println("---- BEGIN RSA TEST ----");
         long start_time = System.currentTimeMillis();
-        RsaKey key = RsaKeyGenerator.generate(1024);
+        RsaKey key = RsaKeyGenerator.generate(rsa_length);
         long start_encrypt_time = System.currentTimeMillis();
         System.out.println("load " + text.length() + " bytes data.");
         byte[] cipher = key.getPublicKey().encrypt(text.getBytes());
@@ -39,8 +51,8 @@ public class SimpleStringTest {
     @Test
     public void rsa_many() {
         System.out.println("---- BEGIN RSA MANY TEST ----");
-        for (int i = 0; i < 500; ++i) {
-            RsaKey key = RsaKeyGenerator.generate(1024);
+        for (int i = 0; i < rsa_many_times; ++i) {
+            RsaKey key = RsaKeyGenerator.generate(rsa_length);
             byte[] cipher = key.getPublicKey().encrypt(text.getBytes());
             String decrypted_text = new String(key.getPrivateKey().decrypt(cipher));
             if (!text.equals(decrypted_text))
@@ -50,6 +62,14 @@ public class SimpleStringTest {
                 System.out.println();
         }
         System.out.println("----  END  RSA MANY TEST ----\n");
+    }
+
+    public static void main(String[] ars) {
+        Result result = JUnitCore.runClasses(SimpleStringTest.class);
+        for (Failure failure : result.getFailures())
+            System.err.println(failure.toString());
+        if (result.wasSuccessful())
+            System.out.println("All tests okay.");
     }
 
     /**

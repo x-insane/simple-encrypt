@@ -29,7 +29,7 @@ public class PrivateKey {
 //            list_src.add(src_fragment);
             byte[] fragment = decrypt(new BigInteger(1, src_fragment)).toByteArray();
 //            list_dest.add(fragment);
-            int len = (fragment[fragment.length-1] << 8) + fragment[fragment.length-2];
+            int len = ((fragment[fragment.length-1] & 0xff) << 8) + fragment[fragment.length-2] & 0xff;
             byte[] fragment_bytes = new byte[len];
             System.arraycopy(fragment, fragment[0] == 0 ? 1 : 0, fragment_bytes, 0, len);
             list.add(fragment_bytes);
