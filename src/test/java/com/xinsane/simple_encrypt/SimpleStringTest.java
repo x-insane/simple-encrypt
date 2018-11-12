@@ -87,6 +87,7 @@ public class SimpleStringTest {
 
     public static void main(String[] ars) {
         Result result = JUnitCore.runClasses(SimpleStringTest.class);
+        System.out.println();
         for (Failure failure : result.getFailures())
             System.err.println(failure.toString());
         if (result.wasSuccessful())
