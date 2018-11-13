@@ -1,4 +1,4 @@
-package com.xinsane.simple_encrypt;
+package com.xinsane.simple_encrypt.test;
 
 import com.xinsane.simple_encrypt.rsa.RsaKey;
 import com.xinsane.simple_encrypt.rsa.RsaKeyGenerator;
